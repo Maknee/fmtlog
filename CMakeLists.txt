@@ -14,6 +14,8 @@ option(FMTLOG_USE_SYSTEM_FMT
 if(FMTLOG_USE_SYSTEM_FMT)
   find_package(fmt CONFIG REQUIRED)
 else()
+  # Set position independent code for fmt library to allow linking into shared libraries
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
   add_subdirectory(fmt)
 endif()
 find_package(Threads MODULE REQUIRED)
@@ -37,6 +39,7 @@ target_link_libraries(
   ${PROJECT_NAME}-shared
   PUBLIC fmt::fmt
   PRIVATE ${PROJECT_NAME}_flags)
+set_target_properties(${PROJECT_NAME}-shared PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 add_library(${PROJECT_NAME}-static STATIC fmtlog.cc)
 target_include_directories(${PROJECT_NAME}-static
@@ -45,6 +48,7 @@ target_link_libraries(
   ${PROJECT_NAME}-static
   PUBLIC fmt::fmt
   PRIVATE ${PROJECT_NAME}_flags)
+set_target_properties(${PROJECT_NAME}-static PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # =================================================================================================
 
@@ -75,7 +79,7 @@ install(FILES ${PROJECT_BINARY_DIR}/fmtlogConfig.cmake
 
 # =================================================================================================
 
-option(BUILD_TESTING "Build tests" ON)
+option(BUILD_TESTING "Build tests" OFF)
 
 if(BUILD_TESTING)
   include(CTest)
