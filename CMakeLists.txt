@@ -35,7 +35,7 @@ target_include_directories(${PROJECT_NAME}-shared
                            INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_link_libraries(
   ${PROJECT_NAME}-shared
-  PRIVATE fmt::fmt
+  PUBLIC fmt::fmt
   PRIVATE ${PROJECT_NAME}_flags)
 
 add_library(${PROJECT_NAME}-static STATIC fmtlog.cc)
@@ -43,7 +43,7 @@ target_include_directories(${PROJECT_NAME}-static
                            INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_link_libraries(
   ${PROJECT_NAME}-static
-  PRIVATE fmt::fmt
+  PUBLIC fmt::fmt
   PRIVATE ${PROJECT_NAME}_flags)
 
 # =================================================================================================
